@@ -36,10 +36,10 @@ class XandO_Game {
     }
 
     private boolean updateCell(int row, int col, byte val) {
-        if (!isCellOccupied(row, col)) {
-            return false; // If a move has already been played on this cell then return false
-        }
         if (row >= 0 && row < ROW_SIZE && col >= 0 && col < COLUMN_SIZE) {
+            if (!isCellOccupied(row, col)) {
+                return false; // If a move has already been played on this cell then return false
+            }
             tableXO[row][col] = val;
             moves++;
             return true;
@@ -69,9 +69,9 @@ class XandO_Game {
              tableXO[2][2] == val
             ) ||
             // Top right to Bottom left diagonal win
-            (curr_row+curr_col == ROW_SIZE && tableXO[0][0] == val &&
+            (curr_row+curr_col == ROW_SIZE-1 && tableXO[2][0] == val &&
              tableXO[1][1] == val &&
-             tableXO[2][2] == val
+             tableXO[0][2] == val
             )                              
         ) {
             return true;
