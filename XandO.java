@@ -49,7 +49,8 @@ class PlayGame {
             int row = in.nextInt();
             int col = in.nextInt();
 
-            int rc = xg.playerMove(player, row, col, move);
+            // Note: Currently there is no use of passing move as parameter from here as I am not taking character input from user, but this can be future enhancement and hence not changed the way this API behaves
+            int rc = xg.playerMove(player, row-1, col-1, move);
             if (rc == -1) {
                 System.out.println("Enter valid input row and column numbers");
                 player = (player == 1) ? 2 : 1;
