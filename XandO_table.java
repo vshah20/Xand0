@@ -10,7 +10,7 @@ class XandO_Game {
     }
    
     public int playerMove(int player, int row, int col, char val) {
-        byte move = validMove(val);
+        byte move = validChar(val);
         
         if (move != -1 && updateCell(row, col, move)) {
             if (checkForWinner(row, col, move)) {
@@ -25,23 +25,30 @@ class XandO_Game {
         return -1; // return code for input error
     }
 
-    private byte validMove(char val) {
+    public static byte validChar(char val) {
         if (val == 'X' || val == 'x') {
             return 1;
         }
         else if (val == 'O' || val == 'o') {
-            return 0;
+            return 2;
         }
         return -1;
     }
 
     private boolean updateCell(int row, int col, byte val) {
+        if (!isCellOccupied(row, col)) {
+            return false; // If a move has already been played on this cell then return false
+        }
         if (row >= 0 && row < ROW_SIZE && col >= 0 && col < COLUMN_SIZE) {
             tableXO[row][col] = val;
             moves++;
             return true;
         }
-        return false;
+        return false; // If row or col out of range, fail
+    }
+
+    private boolean isCellOccupied(int row, int col) {
+        return tableXO[row][col] == 0;
     }
 
     private boolean checkForWinner(int curr_row, int curr_col, byte val) {
@@ -77,5 +84,28 @@ class XandO_Game {
             return false;
         }
         return true;
+    }
+
+    public void printBoard() {
+        for (int i=0; i<ROW_SIZE; ++i) {
+            for (int j=0; j<COLUMN_SIZE; ++j) {
+                if (tableXO[i][j] == 0) {
+                    System.out.print("   ");
+                }
+                else if (tableXO[i][j] == 1) {
+                    System.out.print(" X ");
+                }
+                else if (tableXO[i][j] == 2) {
+                    System.out.print(" O ");
+                }
+                if (j<COLUMN_SIZE-1) {
+                    System.out.print("|");
+                }
+            }
+            System.out.print("\n");
+            if (i<ROW_SIZE-1) {
+                System.out.print("===========\n");
+            }
+        }
     }
 }
