@@ -5,6 +5,7 @@ class PlayGame {
     public static void main (String args[]) {
         XandO_Game xg = new XandO_Game();
         startGame(xg);
+        System.out.println("Thank you for playing the game!");
     }
 
     // TODO: Move this into api class better better encapsulation.
@@ -14,30 +15,33 @@ class PlayGame {
         initialInstructions(xg);
         int player = 1;
         char move = selectPlayerOneChar();
-        
+        if (move == 0) {
+            return;
+        } 
         do {
             try {
                 System.out.println("Player "+player+" turn to play");
                 
                 int row = in.nextInt();
                 if (row == -1) {
-                    System.exit(0);
+                    break;
                 }
                 int col = in.nextInt();
     
                 // Note: Currently there is no use of passing move as parameter from here as I am not taking character input from user, but this can be future enhancement and hence not changed the way this API behaves
+                // TODO: Allow the players to choose who will be player 1
                 int rc = xg.playerMove(player, row-1, col-1, move);
                 if (rc == -1) {
                     System.out.println("Enter valid input row and column numbers");
                 }
                 else if (rc == -11) {
                     xg.printBoard();
-                    System.out.println("Its a draw.\n Thank you for playing the game!");
+                    System.out.println("Its a draw.\n");
                     break;
                 }
                 else if (rc == player) {
                     xg.printBoard();
-                    System.out.println("$ Player "+ player +" wins $.\nThank you for playing the game!");
+                    System.out.println("$ Player "+ player +" wins $.");
                     break;
                 }
                 else {
@@ -73,7 +77,7 @@ class PlayGame {
                     return 'O';
                 }
                 else if (select == -1) {
-                    System.exit(0);
+                    break;
                 }
                 else {
                     System.out.println ("Invalid input!\nEnter \"1\" for X, \"2\" for O");
@@ -85,6 +89,7 @@ class PlayGame {
                 in.next();
             }
         } while (true);
+        return 0;
     }
 
     private static void initialInstructions(XandO_Game xg) {
